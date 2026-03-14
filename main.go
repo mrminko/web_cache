@@ -33,6 +33,7 @@ func webCacheHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 	cache, has := DB.Has(ro.ReqObj)
+	log.Println("has: ", has)
 	if has {
 		body, valid, err := validateCache(cache, ro.ReqObj)
 		if err != nil {
@@ -60,15 +61,18 @@ func webCacheHandler(w http.ResponseWriter, r *http.Request) {
 func addToCache(raw string) (body []byte, err error) {
 	resp, err := requestToServer(raw, -1)
 	if err != nil {
+		log.Println("error when requesting to server: ", err)
 		return nil, err
+	}
+	body, err = io.ReadAll(resp.Body)
+	if err != nil {
+		log.Println("error when reading from server response")
+		return body, nil
 	}
 	d := resp.Header.Get("Last-Modified")
 	unixTime, err := time.Parse(http.TimeFormat, d)
 	if err != nil {
-		return nil, nil //do not add to cache: skip
-	}
-	body, err = io.ReadAll(resp.Body)
-	if err != nil {
+		log.Println("error when parsing Last-Modified: skipped adding to cache")
 		return body, nil
 	}
 	c := &Cache{
