@@ -22,7 +22,7 @@ sequenceDiagram
         end
     else does not have
         Web Cache->>Server: HTTP: GET
-        Server->>Web Cache: HTTP: (Store in cache)
+        Server->>Web Cache: (Store in cache)
     end
     Web Cache->>Client: HTTP: 200
     
