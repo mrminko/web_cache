@@ -1,5 +1,6 @@
 ## Sequence Diagram
 
+```mermaid
 sequenceDiagram
     Client->>+Web Cache: HTTP: GET
     participant Cache@{"type" : "database" }
