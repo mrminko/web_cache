@@ -1,3 +1,10 @@
+## Web Cache
+
+A simple project that simulates the role of a reverse proxy acting as a cache server.
+
+To simplify the process, the client must include the desired URL in the **req_obj** JSON property of the request sent to the web cache. The web cache then responds to the client either with the cached response or with the response fetched from the requested URL, depending on whether a cache hit occurs.
+
+
 ## Sequence Diagram
 
 ```mermaid
